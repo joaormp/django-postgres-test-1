@@ -1,0 +1,28 @@
+version: '3.10'
+
+services:
+  web:
+    build: .
+    command: python /code/manage.py runserver 0.0.0.0:80
+    volumes:
+      - .:/code
+    ports:
+      - 80:80
+    depends_on:
+      - db
+
+  db:
+    image: postgres:12
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db-pgdata:/var/lib/postgresql/data
+volumes:
+    db-pgdata:
+        #external: true
+
+#/var/lib/docker/volumes:
